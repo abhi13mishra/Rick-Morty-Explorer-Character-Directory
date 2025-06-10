@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Directory</title>
+    <style>
+        body{
+            background-color: rgb(30, 255, 0);
+            color:rgb(39, 39, 38);
+            margin:0;
+            padding:20px;
+            text-align: center;
+        }
+        h1{
+            text-align:center;
+            margin-bottom: 20px;
+        }
+        #search{
+            padding:10px;
+            font-size: 16px;
+            width:300px;
+            margin-bottom:20px;
+            border-radius: 5px;
+            border:none;
+        }
+        #container{
+            display:grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap:20px;
+            justify-content: center;
+            padding: 10px;
+        }
+        .card{
+            background-color: aqua;
+            border-radius: 5px;
+            border:2px solid #faf8f8;
+        }
+        .card img{
+            width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Character Directory</h1>
+    <input type="text" id ="search" placeholder="search by name">
+    <div id ="container"></div>
+
+    <script>
+        let containers = document.getElementById("container");
+         async function getCharacters(){
+            let res = await fetch("https://rickandmortyapi.com/api/character");
+            let data = await res.json();
+            showCharacter(data.results)
+         }
+
+         function showCharacter(characters){
+           characters.forEach(char => {
+             let card = document.createElement("div");
+             card.className = "card";
+             card.innerHTML = `             
+                    <img src ="${char.image}" alt ="${char.name}">
+                    <h3>${char.name}</h3>
+                    <p><strong>Specie :</strong> ${char.Species}</p>
+                    <p><strong>Status  :</strong> ${char.Status}</p>
+                    <p><strong>Location  :</strong> ${char.Location}</p>`;
+
+           containers.appendChild(card);
+         })
+        }
+         getCharacters()
+    </script>
+</body>
+</html>
